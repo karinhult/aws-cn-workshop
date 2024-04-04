@@ -12,3 +12,15 @@ app.listen(env.port, () => {
 
 // ...
 // Sigterm handling only
+// Shut down gracefully
+process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received, about to shut down API server');
+
+    server.close(() => {
+        console.log('API server shut down gracefully');
+
+        // other connections and resources to clean up...
+
+        process.exit(0);
+    });
+});
